@@ -20,6 +20,7 @@ import java.util.Map;
  * Un Map es ideal aquí porque buscar si una vacuna ya fue aplicada (containsKey)
  * es una operación directa e instantánea O(1).
  */
+
 public class CartillaVacunacion {
 
     // TODO 23: Declarar e inicializar el mapa de vacunas.
@@ -33,11 +34,10 @@ public class CartillaVacunacion {
      * 
      * @param vacuna Nombre de la vacuna (clave).
      * @param fecha  Fecha de aplicación (valor).
-     * 💡 Pista: Usa el método .put(clave, valor) del mapa.
+     * Pista: Usa el método .put(clave, valor) del mapa.
      */
     public void registrar(String vacuna, LocalDate fecha) {
-        // --- ESCRIBE TU CÓDIGO AQUÍ ---
-
+        vacunas.put(vacuna, fecha);
     }
 
     /**
@@ -46,12 +46,15 @@ public class CartillaVacunacion {
      * 
      * @param vacuna Nombre de la vacuna a buscar.
      * @return true si la vacuna ya fue aplicada, false si no.
-     * 💡 Pista: Usa el método .containsKey(...) del mapa.
+     * Pista: Usa el método .containsKey(...) del mapa.
      */
     public boolean tieneVacuna(String vacuna) {
-        // --- ESCRIBE TU CÓDIGO AQUÍ ---
-
-        return false;
+       if (vacunas.containsKey(vacuna)) {
+            return true;
+        } 
+        else {
+            return false;
+        }
     }
 
     /**
@@ -67,7 +70,16 @@ public class CartillaVacunacion {
      *    Ejemplo: "    💉 Rabia -> 2026-10-02"
      */
     public void mostrar() {
-        // --- ESCRIBE TU CÓDIGO AQUÍ ---
+        if (vacunas.isEmpty()) {
+            System.out.println("    (cartilla vacía)");
+        } 
+        else {
+            for (Map.Entry<String, LocalDate> entry : vacunas.entrySet()) {
+                String vacuna = entry.getKey();
+                LocalDate fecha = entry.getValue();
+                System.out.println(" " + vacuna + " -> " + fecha);
+            }
+        }
 
     }
 
@@ -90,8 +102,13 @@ public class CartillaVacunacion {
      * @throws IOException Si ocurre un error de escritura en disco.
      */
     public void guardar(Path archivo) throws IOException {
-        // --- ESCRIBE TU CÓDIGO AQUÍ ---
-
+        List<String> lineas = new ArrayList<>();
+        for (Map.Entry<String, LocalDate> entry : vacunas.entrySet()) {
+            String vacuna = entry.getKey();
+            LocalDate fecha = entry.getValue();
+            lineas.add(vacuna + "," + fecha);
+        }
+        Files.write(archivo, lineas);
     }
 
     /**
@@ -111,7 +128,26 @@ public class CartillaVacunacion {
      * @throws IOException Si ocurre un error de lectura.
      */
     public void cargar(Path archivo) throws IOException {
-        // --- ESCRIBE TU CÓDIGO AQUÍ ---
+        if (!Files.exists(archivo)) {
+            return;
+        }
+        List<String> lineas = Files.readAllLines(archivo);
+        for (String linea : lineas) {
+            if (linea == null || linea.trim().isEmpty() || !linea.contains(",")) {
+                continue;
+            }
+            
+            String[] partes = linea.split(",");
+            
+            if (partes.length >= 2) {
+                String vacuna = partes[0];
+                LocalDate fecha = LocalDate.parse(partes[1]);
+                vacunas.put(vacuna, fecha);
+            }
+        }
+    }
 
+    public void vaciar() {
+    vacunas.clear();
     }
 }

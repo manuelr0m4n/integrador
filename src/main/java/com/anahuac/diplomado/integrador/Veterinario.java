@@ -45,12 +45,27 @@ public class Veterinario {
      *      mascota.vacunar(vacuna, LocalDate.now());
      *    - Imprimir: "🩺 Dr(a). " + nombre + " aplicó " + vacuna + " a " + mascota.getNombre()
      */
-    public void aplicarVacuna(Mascota mascota, String vacuna) {
-        // --- ESCRIBE TU CÓDIGO AQUÍ ---
+    public boolean aplicarVacuna(Mascota mascota, String vacunaIngresada) {
+        if (mascota == null) {
+            System.out.println("La mascota no existe.");
+            return false;
+        }
 
-    }
+        String vacunaCorrecta = null;
+        for (String recomendada : mascota.vacunasRecomendadas()) {
+            if (recomendada.equalsIgnoreCase(vacunaIngresada.trim())) {
+                vacunaCorrecta = recomendada;
+                break;
+            }
+        }
 
-    public String getNombre() {
-        return nombre;
+        if (vacunaCorrecta == null) {
+            System.out.println(" '" + vacunaIngresada.trim() + "' no es una vacuna recomendada para " + mascota.getNombre());
+            return false;
+        }
+
+        mascota.vacunar(vacunaCorrecta, LocalDate.now());
+        System.out.println(" Dr(a). " + nombre + " aplicó " + vacunaCorrecta + " a " + mascota.getNombre());
+        return true;
     }
 }

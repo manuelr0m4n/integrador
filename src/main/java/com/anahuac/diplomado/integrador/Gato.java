@@ -28,8 +28,7 @@ public class Gato extends Mascota {
      */
     public Gato(String nombre, int edad, String dueno, boolean interior) {
         super(nombre, edad, dueno);
-        // --- ESCRIBE TU CÓDIGO AQUÍ ---
-
+        this.interior = interior;
     }
 
     /**
@@ -39,7 +38,7 @@ public class Gato extends Mascota {
     @Override
     public String hacerSonido() {
         // --- ESCRIBE TU CÓDIGO AQUÍ ---
-        return "";
+        return "MIAU";
     }
 
     /**
@@ -49,7 +48,7 @@ public class Gato extends Mascota {
     @Override
     public String getTipo() {
         // --- ESCRIBE TU CÓDIGO AQUÍ ---
-        return "";
+        return "GATO";
     }
 
     /**
@@ -61,8 +60,13 @@ public class Gato extends Mascota {
      */
     @Override
     public String getDetalle() {
-        // --- ESCRIBE TU CÓDIGO AQUÍ ---
-        return "";
+        String detalle = "";
+        if (interior) {
+            detalle = "interior";
+        } else {
+            detalle = "exterior";
+        }
+        return detalle;
     }
 
     /**
@@ -73,6 +77,6 @@ public class Gato extends Mascota {
     @Override
     public List<String> vacunasRecomendadas() {
         // --- ESCRIBE TU CÓDIGO AQUÍ ---
-        return List.of();
+        return List.of("Rabia", "Triple felina", "Leucemia felina");
     }
 }

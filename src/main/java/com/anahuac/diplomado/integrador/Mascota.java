@@ -40,7 +40,9 @@ public abstract class Mascota implements Vacunable {
      * 💡 Pista: Usa la palabra reservada 'this' para distinguir el parámetro del atributo.
      */
     public Mascota(String nombre, int edad, String dueno) {
-        // --- ESCRIBE TU CÓDIGO AQUÍ ---
+        this.nombre = nombre;
+        this.edad = edad;
+        this.dueno = dueno;
 
     }
 
@@ -72,7 +74,7 @@ public abstract class Mascota implements Vacunable {
      */
     @Override
     public void vacunar(String vacuna, LocalDate fecha) {
-        // --- ESCRIBE TU CÓDIGO AQUÍ ---
+        cartilla.registrar(vacuna, fecha);
 
     }
 
@@ -89,9 +91,14 @@ public abstract class Mascota implements Vacunable {
      */
     @Override
     public List<String> vacunasPendientes() {
-        // --- ESCRIBE TU CÓDIGO AQUÍ ---
-
-        return new ArrayList<>(); // Reemplaza o ajusta según tu lógica
+        List<String> pendientes = new ArrayList<>();
+        List<String> recomendadas = vacunasRecomendadas();
+        for (String vacuna : recomendadas) {
+            if (!cartilla.tieneVacuna(vacuna)) {
+                pendientes.add(vacuna);
+            }
+        }
+        return pendientes;
     }
 
     // ========================================================================
@@ -137,8 +144,6 @@ public abstract class Mascota implements Vacunable {
      */
     @Override
     public String toString() {
-        // --- ESCRIBE TU CÓDIGO AQUÍ ---
-
-        return "";
+        return getTipo() + " " + nombre + " (" + edad + " años, dueño: " + dueno + ", " + getDetalle() + ")";
     }
 }

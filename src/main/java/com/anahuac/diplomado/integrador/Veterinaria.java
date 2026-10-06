@@ -33,7 +33,7 @@ public class Veterinaria {
      */
     public void registrarPaciente(Mascota m) {
         // --- ESCRIBE TU CÓDIGO AQUÍ ---
-
+        pacientes.add(m);
     }
 
     /**
@@ -47,7 +47,11 @@ public class Veterinaria {
      */
     public Mascota buscar(String nombreMascota) {
         // --- ESCRIBE TU CÓDIGO AQUÍ ---
-
+        for (Mascota m : pacientes) {
+            if (m.getNombre().equalsIgnoreCase(nombreMascota)) {
+                return m;
+            }
+        }
         return null;
     }
 
@@ -66,7 +70,10 @@ public class Veterinaria {
      */
     public void mostrarPacientes() {
         // --- ESCRIBE TU CÓDIGO AQUÍ ---
-
+        System.out.println("  Pacientes de " + nombre + ":");
+        for (Mascota m : pacientes) {
+            System.out.println("  • " + m);
+        }
     }
 
     // ========================================================================
@@ -96,7 +103,17 @@ public class Veterinaria {
      */
     public void guardarTodo(Path carpeta) throws IOException {
         // --- ESCRIBE TU CÓDIGO AQUÍ ---
-
+        Files.createDirectories(carpeta);
+        List<String> lineas = new ArrayList<>();
+        
+        for (Mascota m : pacientes) {
+            lineas.add(m.getTipo() + ";" + m.getNombre() + ";" + m.getEdad() + ";" + m.getDueno() + ";" + m.getDetalle());
+            if (m.getCartilla() != null) {
+                m.getCartilla().guardar(carpeta.resolve("cartilla_" + m.getNombre() + ".txt"));
+            }
+        }
+        
+        Files.write(carpeta.resolve("pacientes.csv"), lineas);
     }
 
     /**
@@ -129,6 +146,28 @@ public class Veterinaria {
      */
     public void cargarTodo(Path carpeta) throws IOException {
         // --- ESCRIBE TU CÓDIGO AQUÍ ---
-
+        Path archivo = carpeta.resolve("pacientes.csv");
+        if (!Files.exists(archivo)) {
+            return;
+        }
+        
+        List<String> lineas = Files.readAllLines(archivo);
+        for (String linea : lineas) {
+            String[] p = linea.split(";");
+            Mascota m;
+            int edad = Integer.parseInt(p[2]);
+            
+            if (p[0].equals("PERRO")) {
+                m = new Perro(p[1], edad, p[3], p[4]);
+            } else {
+                m = new Gato(p[1], edad, p[3], p[4].equals("interior"));
+            }
+            
+            if (m.getCartilla() != null) {
+                m.getCartilla().cargar(carpeta.resolve("cartilla_" + p[1] + ".txt"));
+            }
+            
+            pacientes.add(m);
+        }
     }
 }

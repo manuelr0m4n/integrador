@@ -29,7 +29,7 @@ public class Perro extends Mascota {
      */
     public Perro(String nombre, int edad, String dueno, String raza) {
         super(nombre, edad, dueno);
-        // --- ESCRIBE TU CÓDIGO AQUÍ ---
+        this.raza = raza;
 
     }
 
@@ -40,7 +40,7 @@ public class Perro extends Mascota {
     @Override
     public String hacerSonido() {
         // --- ESCRIBE TU CÓDIGO AQUÍ ---
-        return "";
+        return "GUAU";
     }
 
     /**
@@ -50,7 +50,7 @@ public class Perro extends Mascota {
     @Override
     public String getTipo() {
         // --- ESCRIBE TU CÓDIGO AQUÍ ---
-        return "";
+        return "PERRO";
     }
 
     /**
@@ -60,7 +60,7 @@ public class Perro extends Mascota {
     @Override
     public String getDetalle() {
         // --- ESCRIBE TU CÓDIGO AQUÍ ---
-        return "";
+        return raza;
     }
 
     /**
@@ -70,7 +70,6 @@ public class Perro extends Mascota {
      */
     @Override
     public List<String> vacunasRecomendadas() {
-        // --- ESCRIBE TU CÓDIGO AQUÍ ---
-        return List.of();
+        return List.of("Rabia", "Parvovirus", "Moquillo");
     }
 }
