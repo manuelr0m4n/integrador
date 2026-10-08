@@ -5,7 +5,6 @@ import java.nio.file.Path;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.nio.file.Files;
-import java.time.LocalDate;
 
 public class MenuVeterinaria {
 
